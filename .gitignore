@@ -1,0 +1,6 @@
+# emacs temp files
+*~
+\#*\#
+
+# emacs auto-save-list
+auto-save-list/*
