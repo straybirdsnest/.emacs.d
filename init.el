@@ -21,4 +21,8 @@
 (tool-bar-mode -1)
  ;; bind F8 to neotree
 (global-set-key [f8] 'neotree-toggle)
+ ;; auto show neotree
+ ;;(neotree-show)
+ ;; bind C-x g to magit-status
+(global-set-key (kbd "C-x g") 'magit-status)
 
