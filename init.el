@@ -25,4 +25,6 @@
  ;;(neotree-show)
  ;; bind C-x g to magit-status
 (global-set-key (kbd "C-x g") 'magit-status)
+ ;; bind C-x M-g to magit-dispatch-popup
+(global-set-key (kbd "C-x M-g" 'magit-dispatch-popup)
 
