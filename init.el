@@ -13,5 +13,12 @@
  ;; If there is more than one, they won't work right.
  )
  ;; add melpa to package source.
-(add-to-list 'package-archives
-	     '("melpa", "http://melpa.org/packages/"))
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")
+			 ("popkit" . "http://elpa.popkit.org/packages/")))
+ ;; don't display toolbar
+(tool-bar-mode -1)
+ ;; bind F8 to neotree
+(global-set-key [f8] 'neotree-toggle)
+
