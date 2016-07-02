@@ -27,3 +27,5 @@
 (global-set-key (kbd "C-x g") 'magit-status)
  ;; bind C-x M-g to magit-dispatch-popup
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+ ;; enable nyan-mode
+ ;; (setq 'nyan-mode' t)
