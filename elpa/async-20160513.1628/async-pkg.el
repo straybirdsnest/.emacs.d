@@ -1,0 +1,1 @@
+(define-package "async" "20160513.1628" "Asynchronous processing in Emacs" 'nil :url "http://elpa.gnu.org/packages/async.html" :keywords '("async"))

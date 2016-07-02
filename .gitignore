@@ -4,5 +4,3 @@
 
 # emacs auto-save-list
 auto-save-list/*
-# emacs download files
-elpa/*
