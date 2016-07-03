@@ -27,5 +27,9 @@
 (global-set-key (kbd "C-x g") 'magit-status)
  ;; bind C-x M-g to magit-dispatch-popup
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
- ;; enable nyan-mode
- ;; (setq 'nyan-mode' t)
+ ;; use js2mode over javascript mode
+(add-to-list 'auto-mode-alist `(,(rx ".js" string-end) . js2-mode))
+ ;; set path enviroment
+ ;;(setenv "PATH" (concat "/usr/local/bin/" (getenv "PATH")))
+ ;; tern
+ ;;(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
