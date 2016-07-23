@@ -29,9 +29,15 @@
 (global-set-key (kbd "C-x g") 'magit-status)
  ;; bind C-x M-g to magit-dispatch-popup
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+ ;; auto toggle company-mode
+(add-hook 'after-init-hook 'global-company-mode)
  ;; use js2mode over javascript mode
 (add-to-list 'auto-mode-alist `(,(rx ".js" string-end) . js2-mode))
  ;; set path enviroment
- ;;(setenv "PATH" (concat "/usr/local/bin/" (getenv "PATH")))
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+  (setq exec-path (append exec-path '("/usr/local/bin")))
  ;; tern
- ;;(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+ ;; add company-tern to backend
+(with-eval-after-load 'company
+  (add-to-list 'company-backends 'company-tern))
