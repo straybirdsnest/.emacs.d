@@ -12,32 +12,34 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
- ;; set font size
+;; set font size
 (set-face-attribute 'default nil :height 180)
- ;; add melpa to package source.
+;; add melpa to package source.
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
 			 ("popkit" . "http://elpa.popkit.org/packages/")))
- ;; don't display toolbar
+;; don't display toolbar
 (tool-bar-mode -1)
- ;; bind F8 to neotree
+;; display column number
+(setq column-number-mode t)
+;; bind F8 to neotree
 (global-set-key [f8] 'neotree-toggle)
- ;; auto show neotree
- ;;(neotree-show)
- ;; bind C-x g to magit-status
+;; auto show neotree
+;;(neotree-show)
+;; bind C-x g to magit-status
 (global-set-key (kbd "C-x g") 'magit-status)
- ;; bind C-x M-g to magit-dispatch-popup
+;; bind C-x M-g to magit-dispatch-popup
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
- ;; auto toggle company-mode
+;; auto toggle company-mode
 (add-hook 'after-init-hook 'global-company-mode)
- ;; use js2mode over javascript mode
+;; use js2mode over javascript mode
 (add-to-list 'auto-mode-alist `(,(rx ".js" string-end) . js2-mode))
- ;; set path enviroment
+;; set path enviroment
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-  (setq exec-path (append exec-path '("/usr/local/bin")))
- ;; tern
+(setq exec-path (append exec-path '("/usr/local/bin")))
+;; tern
 (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
- ;; add company-tern to backend
+;; add company-tern to backend
 (with-eval-after-load 'company
   (add-to-list 'company-backends 'company-tern))
