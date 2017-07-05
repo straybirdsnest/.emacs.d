@@ -23,6 +23,13 @@
 (tool-bar-mode -1)
 ;; display column number
 (setq column-number-mode t)
+;; don't use tab to indent
+(setq-default indent-tabs-mode nil)
+;; set tab using 4 spaces
+(setq tab-width 4)
+;; setting c and cperl using tab-width
+(defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'cperl-indent-level 'tab-width)
 ;; bind F8 to neotree
 (global-set-key [f8] 'neotree-toggle)
 ;; auto show neotree
