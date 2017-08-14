@@ -1,3 +1,6 @@
+;; set all sub directories of ~/.emacs.d/elpa as default DIR
+(let ((default-directory  "~/.emacs.d/elpa/"))
+  (normal-top-level-add-subdirs-to-load-path))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -32,8 +35,9 @@
 (defvaralias 'cperl-indent-level 'tab-width)
 ;; bind F8 to neotree
 (global-set-key [f8] 'neotree-toggle)
-;; auto show neotree
-;;(neotree-show)
+;; enable popwin mode
+(require 'popwin)
+(popwin-mode 1)
 ;; bind C-x g to magit-status
 (global-set-key (kbd "C-x g") 'magit-status)
 ;; bind C-x M-g to magit-dispatch-popup
@@ -50,3 +54,5 @@
 ;; add company-tern to backend
 (with-eval-after-load 'company
   (add-to-list 'company-backends 'company-tern))
+;; enable neotree-toggle
+(add-hook 'after-init-hook #'neotree-toggle)
