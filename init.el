@@ -35,9 +35,12 @@
 (defvaralias 'cperl-indent-level 'tab-width)
 ;; bind F8 to neotree
 (global-set-key [f8] 'neotree-toggle)
+;; enable all the icons
+(require 'all-the-icons)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 ;; enable popwin mode
 (require 'popwin)
-(popwin-mode t)
+(popwin-mode 1)
 ;; enable nyan-mode
 (require 'nyan-mode)
 (nyan-mode t)
