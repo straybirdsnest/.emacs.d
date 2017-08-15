@@ -37,7 +37,11 @@
 (global-set-key [f8] 'neotree-toggle)
 ;; enable popwin mode
 (require 'popwin)
-(popwin-mode 1)
+(popwin-mode t)
+;; enable nyan-mode
+(require 'nyan-mode)
+(nyan-mode t)
+(nyan-start-animation)
 ;; bind C-x g to magit-status
 (global-set-key (kbd "C-x g") 'magit-status)
 ;; bind C-x M-g to magit-dispatch-popup
