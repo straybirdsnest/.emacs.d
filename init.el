@@ -63,3 +63,9 @@
   (add-to-list 'company-backends 'company-tern))
 ;; enable neotree-toggle
 (add-hook 'after-init-hook #'neotree-toggle)
+;; enable blank mode
+(require 'blank-mode)
+(global-blank-mode t)
+;; show tabs as "^I"
+(set-face-background 'blank-tab-face "^I")
+(set-face-frontground 'blank-tab-face "^I")
