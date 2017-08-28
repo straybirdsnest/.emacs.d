@@ -45,6 +45,7 @@
 (require 'nyan-mode)
 (nyan-mode t)
 (nyan-start-animation)
+(nyan-toggle-wavy-trail)
 ;; bind C-x g to magit-status
 (global-set-key (kbd "C-x g") 'magit-status)
 ;; bind C-x M-g to magit-dispatch-popup
