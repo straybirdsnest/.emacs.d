@@ -55,9 +55,11 @@
 ;; use js2mode over javascript mode
 (add-to-list 'auto-mode-alist `(,(rx ".js" string-end) . js2-mode))
 ;; set path enviroment
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-(setq exec-path (append exec-path '("/usr/local/bin")))
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/tern/bin"))
+(setq exec-path (append exec-path '("/usr/local/bin/tern/bin")))
 ;; tern
+(add-to-list 'load-path "/usr/local/bin/tern")
+(autoload 'tern-mode "tern.el" nil t)
 (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
 ;; add company-tern to backend
 (with-eval-after-load 'company
