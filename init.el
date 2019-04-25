@@ -1,4 +1,11 @@
 ;; set all sub directories of ~/.emacs.d/elpa as default DIR
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (let ((default-directory  "~/.emacs.d/elpa/"))
   (normal-top-level-add-subdirs-to-load-path))
 (custom-set-variables
@@ -8,7 +15,10 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
    ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
- '(custom-enabled-themes (quote (tsdh-dark))))
+ '(custom-enabled-themes (quote (tsdh-dark)))
+ '(package-selected-packages
+   (quote
+    (counsel-etags lsp-treemacs clang-format dash lsp-mode zone-nyan yaml-mode transient popwin nyan-mode neotree markdown-mode+ magit kv js2-mode java-snippets highlight-chars groovy-mode gradle-mode font-lock+ counsel company-tern blank-mode all-the-icons))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -18,10 +28,12 @@
 ;; set font size
 (set-face-attribute 'default nil :height 180)
 ;; add melpa to package source.
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("marmalade" . "https://marmalade-repo.org/packages/")
+(setq package-archives '(
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+;;                         ("marmalade" . "https://marmalade-repo.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
-                         ("popkit" . "http://elpa.popkit.org/packages/")))
+			 ))
+;;                         ("popkit" . "http://elpa.popkit.org/packages/")))
 ;; don't display toolbar
 (tool-bar-mode -1)
 ;; display column number
@@ -58,17 +70,40 @@
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/tern/bin"))
 (setq exec-path (append exec-path '("/usr/local/bin/tern/bin")))
 ;; tern
-(add-to-list 'load-path "/usr/local/bin/tern")
-(autoload 'tern-mode "tern.el" nil t)
-(add-hook 'js2-mode-hook (lambda () (tern-mode t)))
+;; (add-to-list 'load-path "/usr/local/bin/tern")
+;; (autoload 'tern-mode "tern.el" nil t)
+;; (add-hook 'js2-mode-hook (lambda () (tern-mode t)))
 ;; add company-tern to backend
-(with-eval-after-load 'company
-  (add-to-list 'company-backends 'company-tern))
+;; (with-eval-after-load 'company
+;;  (add-to-list 'company-backends 'company-tern))
 ;; enable neotree-toggle
 (add-hook 'after-init-hook #'neotree-toggle)
 ;; enable blank mode
 (require 'blank-mode)
 (global-blank-mode t)
 ;; show tabs as "^I"
-(set-face-background 'blank-tab-face "^I")
-(set-face-frontground 'blank-tab-face "^I")
+;; (set-face-background 'blank-tab-face "^I")
+;; (set-face-frontground 'blank-tab-face "^I")
+;; ivy
+;; enable ivy
+(ivy-mode 1)
+;; basic setup
+(setq ivy-use-virtual-buffers t)
+(setq ivy-count-format "%d/%d ")
+;; ivy use Swiper to prompt
+(setq ivy-use-selectable-prompt t)
+;; lsp-mode
+(require 'lsp-mode)
+;; set c/c++ mode using lsp-mode
+(add-hook 'c-mode-hook #'lsp)
+(add-hook 'c++-mode-hook #'lsp)
+;; counsel-etags ignore file over 800KB
+(setq counsel-etags-max-file-size 800)
+;; counsel-etags ignore build files
+(eval-after-load 'counsel-etags
+  '(progn
+     (add-to-list 'counsel-etags-ignore-directories ' "build*")
+     ))
+;; counsel-etags update every three minutes
+(setq counsel-etags-update-interval 180)
+
