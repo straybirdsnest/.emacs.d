@@ -18,7 +18,7 @@
  '(custom-enabled-themes (quote (tsdh-dark)))
  '(package-selected-packages
    (quote
-    (counsel-etags lsp-treemacs clang-format dash lsp-mode zone-nyan yaml-mode transient popwin nyan-mode neotree markdown-mode+ magit kv js2-mode java-snippets highlight-chars groovy-mode gradle-mode font-lock+ counsel company-tern blank-mode all-the-icons))))
+    (amx symbol-overlay counsel-etags lsp-treemacs clang-format dash lsp-mode zone-nyan yaml-mode transient popwin nyan-mode neotree markdown-mode+ magit kv js2-mode java-snippets highlight-chars groovy-mode gradle-mode font-lock+ counsel company-tern blank-mode all-the-icons))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -46,7 +46,9 @@
 (defvaralias 'c-basic-offset 'tab-width)
 (defvaralias 'cperl-indent-level 'tab-width)
 ;; bind F8 to neotree
-(global-set-key [f8] 'neotree-toggle)
+;; (global-set-key [f8] 'neotree-toggle)
+;; neotree follow current file
+(setq neo-smart-open t)
 ;; enable all the icons
 (require 'all-the-icons)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
@@ -64,6 +66,12 @@
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 ;; auto toggle company-mode
 (add-hook 'after-init-hook 'global-company-mode)
+;; use C-n C-p to navigate company suggesstion
+(with-eval-after-load 'company
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") #'company-select-next)
+  (define-key company-active-map (kbd "C-p") #'company-select-previous))
 ;; use js2mode over javascript mode
 (add-to-list 'auto-mode-alist `(,(rx ".js" string-end) . js2-mode))
 ;; set path enviroment
@@ -92,6 +100,10 @@
 (setq ivy-count-format "%d/%d ")
 ;; ivy use Swiper to prompt
 (setq ivy-use-selectable-prompt t)
+;; use Ssiper instead of i-search
+(global-set-key "\C-s" 'swiper)
+;; search line number
+(setq swiper-include-line-number-in-search t)
 ;; lsp-mode
 (require 'lsp-mode)
 ;; set c/c++ mode using lsp-mode
@@ -106,4 +118,12 @@
      ))
 ;; counsel-etags update every three minutes
 (setq counsel-etags-update-interval 180)
+;; symbol-overlay
+(require 'symbol-overlay)
+(add-hook 'prog-mode-hook #'symbol-overlay-mode)
+(global-set-key (kbd "M-i") 'symbol-overlay-put)
+(global-set-key (kbd "M-n") 'symbol-overlay-switch-forward)
+(global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
+(global-set-key (kbd "<f7>") 'symbol-overlay-mode)
+(global-set-key (kbd "<f8>") 'symbol-overlay-remove-all)
 
