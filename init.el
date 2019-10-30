@@ -1,3 +1,4 @@
+
 ;; set all sub directories of ~/.emacs.d/elpa as default DIR
 
 ;; Added by Package.el.  This must come before configurations of
@@ -8,6 +9,7 @@
 
 (let ((default-directory  "~/.emacs.d/elpa/"))
   (normal-top-level-add-subdirs-to-load-path))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -18,7 +20,10 @@
  '(custom-enabled-themes (quote (tsdh-dark)))
  '(package-selected-packages
    (quote
-    (amx symbol-overlay counsel-etags lsp-treemacs clang-format dash lsp-mode zone-nyan yaml-mode transient popwin nyan-mode neotree markdown-mode+ magit kv js2-mode java-snippets highlight-chars groovy-mode gradle-mode font-lock+ counsel company-tern blank-mode all-the-icons))))
+    (flycheck-inline which-key flycheck-rtags company-rtags ivy-rtags rtags modern-cpp-font-lock flycheck amx symbol-overlay counsel-etags clang-format dash zone-nyan yaml-mode transient popwin nyan-mode neotree markdown-mode+ magit kv js2-mode java-snippets highlight-chars groovy-mode gradle-mode font-lock+ counsel company-tern blank-mode all-the-icons)))
+ '(safe-local-variable-values
+   (quote
+    ((eval setq rtags-path "/home/otakuplus/Projects/rtags/build/bin/")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -60,8 +65,6 @@
 (nyan-mode t)
 (nyan-start-animation)
 (nyan-toggle-wavy-trail)
-;; bind C-x g to magit-status
-(global-set-key (kbd "C-x g") 'magit-status)
 ;; bind C-x M-g to magit-dispatch-popup
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 ;; auto toggle company-mode
@@ -84,6 +87,9 @@
 ;; add company-tern to backend
 ;; (with-eval-after-load 'company
 ;;  (add-to-list 'company-backends 'company-tern))
+
+;; bind C-x g to magit-status
+(global-set-key (kbd "C-x g") 'magit-status)
 ;; enable neotree-toggle
 (add-hook 'after-init-hook #'neotree-toggle)
 ;; enable blank mode
@@ -100,15 +106,34 @@
 (setq ivy-count-format "%d/%d ")
 ;; ivy use Swiper to prompt
 (setq ivy-use-selectable-prompt t)
-;; use Ssiper instead of i-search
+;; use Swiper instead of i-search
 (global-set-key "\C-s" 'swiper)
 ;; search line number
 (setq swiper-include-line-number-in-search t)
+;; use counsel-M-x and counsel-find-file
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
 ;; lsp-mode
-(require 'lsp-mode)
+;; (require 'lsp-mode)
 ;; set c/c++ mode using lsp-mode
-(add-hook 'c-mode-hook #'lsp)
-(add-hook 'c++-mode-hook #'lsp)
+;; (add-hook 'c-mode-hook #'lsp)
+;; (add-hook 'c++-mode-hook #'lsp)
+;; debug clang io
+;; (setq lsp-log-io t)
+;; use flycheck only
+;; (setq lsp-prefer-flymake nil)
+;; flycheck-clang-tidy
+;; (require 'flycheck-clang-tidy)
+;; (eval-after-load 'fly-check
+;;  '(add-hook 'flycheck-mode-hook #'flycheck-clang-tidy-setup))
+;; lsp-ui
+;; (require 'lsp-ui)
+;; set up lsp-ui for lsp-mode
+;; (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+;; use company-lsp backends
+;; (require 'company-lsp)
+;; (push 'company-lsp company-backends)
+
 ;; counsel-etags ignore file over 800KB
 (setq counsel-etags-max-file-size 800)
 ;; counsel-etags ignore build files
@@ -118,6 +143,13 @@
      ))
 ;; counsel-etags update every three minutes
 (setq counsel-etags-update-interval 180)
+;; update counsel-etags after save file
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (add-hook 'after-save-hook
+                      'counsel-etags-virtual-update-tags 'append 'local)))
+;;
+
 ;; symbol-overlay
 (require 'symbol-overlay)
 (add-hook 'prog-mode-hook #'symbol-overlay-mode)
@@ -126,4 +158,39 @@
 (global-set-key (kbd "M-p") 'symbol-overlay-switch-backward)
 (global-set-key (kbd "<f7>") 'symbol-overlay-mode)
 (global-set-key (kbd "<f8>") 'symbol-overlay-remove-all)
+;; modern-cpp-font-lock
+(require 'modern-cpp-font-lock)
+(modern-c++-font-lock-global-mode t)
+;; enable flycheck with c/c++ mode
+(add-hook 'c-mode-hook 'flycheck-mode)
+(add-hook 'c++-mode-hook 'flycheck-mode)
+;; flycheck-inline 
+(with-eval-after-load 'flycheck
+  (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
+;; rtags and company-rtags
+(require 'rtags)
+(require 'company-rtags)
+(setq rtags-completions-enabled t)
+(push 'company-rtags company-backends)
+;; enable standard keybinding
+(rtags-enable-standard-keybindings)
+;; enable auto diagnostics
+(setq rtags-autostart-diagnostics t)
+;; flycheck-rtags
+(require 'flycheck-rtags)
+(defun my-flycheck-rtags-setup ()
+  "Configure flycheck-rtags for better experience."
+  (flycheck-select-checker 'rtags)
+  (setq-local flycheck-check-syntax-automatically nil)
+  (setq-local flycheck-highlighting-mode nil))
+(add-hook 'c-mode-hook #'my-flycheck-rtags-setup)
+(add-hook 'c++-mode-hook #'my-flycheck-rtags-setup)
+(add-hook 'objc-mode-hook #'my-flycheck-rtags-setup)
+;; ivy and rtags
+(setq rtags-display-result-backend 'ivy)
+;; which-key
+(require 'which-key)
+(which-key-setup-side-window-right-bottom)
+;; clang-format
+(global-set-key (kbd "C-c f .") 'clang-format-region)
 
