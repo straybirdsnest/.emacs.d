@@ -1,6 +1,7 @@
 # emacs temp files
 *~
 \#*\#
-
-# emacs auto-save-list
+#emacs auto - save - list
 auto-save-list/*
+# tramp
+tramp

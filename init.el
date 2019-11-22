@@ -6,7 +6,6 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
-
 (let ((default-directory  "~/.emacs.d/elpa/"))
   (normal-top-level-add-subdirs-to-load-path))
 
@@ -164,7 +163,7 @@
 ;; enable flycheck with c/c++ mode
 (add-hook 'c-mode-hook 'flycheck-mode)
 (add-hook 'c++-mode-hook 'flycheck-mode)
-;; flycheck-inline 
+;; flycheck-inline
 (with-eval-after-load 'flycheck
   (add-hook 'flycheck-mode-hook #'flycheck-inline-mode))
 ;; rtags and company-rtags
@@ -193,4 +192,11 @@
 (which-key-setup-side-window-right-bottom)
 ;; clang-format
 (global-set-key (kbd "C-c f .") 'clang-format-region)
+;; clang-format before save
+(defun my-clang-format-before-save ()
+  (if (or (eq major-mode 'c++-mode) (eq major-mode 'c-mode))
+;;      (progn (message "major c/c++ mode on")
+;;             (do-another-things))
+      (clang-format-buffer)))
+(add-hook 'before-save-hook 'my-clang-format-before-save)
 
